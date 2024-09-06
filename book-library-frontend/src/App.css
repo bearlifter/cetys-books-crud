@@ -1,3 +1,4 @@
+/* General App Styles */
 .App {
   text-align: center;
 }
@@ -35,4 +36,21 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+/* Book Form Styles */
+.book-form-container {
+  padding: 20px;
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
+  margin-bottom: 20px;
+  transition: background-image 0.5s ease-in-out;
+}
+
+/* Background image applied when "Harry Potter" is typed */
+.harry-potter-bg {
+  background-image: url('https://c4.wallpaperflare.com/wallpaper/932/891/825/hogwarts-legacy-video-games-dragon-owl-harry-potter-hd-wallpaper-preview.jpg');
+  background-size: cover;
+  background-position: center;
+  height: 300px; /* Set a fixed height for the form with background */
 }

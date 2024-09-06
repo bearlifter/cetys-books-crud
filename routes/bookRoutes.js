@@ -40,13 +40,29 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+router.get("/:id", async(req,res)=> {
+  try {
+    
+    
+  } catch (error) {
+    
+  }
+})
+
 // Update
 router.put("/:id", async (req, res) => {
   try {
-    const book = await Book.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
+    const updatedData = req.body;
+    const book = await Book.findByIdAndUpdate(req.params.id, updatedData, {
+      new: true, // This returns the updated book
+      runValidators: true, // Ensures that validation rules are respected
     });
-    res.json(BookViewModel.fromModel(book));
+
+    if (book) {
+      res.json(BookViewModel.fromModel(book));
+    } else {
+      res.status(404).json({ message: "Book not found" });
+    }
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -55,11 +71,16 @@ router.put("/:id", async (req, res) => {
 // Delete
 router.delete("/:id", async (req, res) => {
   try {
-    await Book.findByIdAndDelete(req.params.id);
-    res.json({ message: "Book deleted successfully" });
+    const book = await Book.findByIdAndDelete(req.params.id);
+    if (book) {
+      res.json({ message: "Book deleted successfully" });
+    } else {
+      res.status(404).json({ message: "Book not found" });
+    }
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
 module.exports = router;
+

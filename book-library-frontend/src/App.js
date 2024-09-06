@@ -4,6 +4,7 @@ import BookForm from "./components/BookForm";
 
 function App() {
   const [books, setBooks] = useState([]);
+  const [selectedBook, setSelectedBook] = useState(null);
 
   useEffect(() => {
     fetchBooks();
@@ -25,16 +26,31 @@ function App() {
     setBooks([...books, newBook]);
   };
 
+  const updateBook = async (book) => {
+    const response = await fetch(`/api/books/${book.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(book),
+    });
+    const updatedBook = await response.json();
+    setBooks(books.map((b) => (b.id === updatedBook.id ? updatedBook : b)));
+    setSelectedBook(null); // Reset the selected book after updating
+  };
+
   const deleteBook = async (id) => {
     await fetch(`/api/books/${id}`, { method: "DELETE" });
     setBooks(books.filter((book) => book.id !== id));
   };
 
+  const selectBook = (book) => {
+    setSelectedBook(book);
+  };
+
   return (
     <div className="App">
       <h1>Book Library</h1>
-      <BookForm addBook={addBook} />
-      <BookList books={books} deleteBook={deleteBook} />
+      <BookForm addBook={addBook} updateBook={updateBook} selectedBook={selectedBook} />
+      <BookList books={books} deleteBook={deleteBook} selectBook={selectBook} />
     </div>
   );
 }
