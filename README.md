@@ -4,4 +4,6 @@ node server.js
 
 cd book-library-frontend
 
+npm install
+
 npm start
